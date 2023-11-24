@@ -1,0 +1,10 @@
+.candy-grid {
+  display: grid;
+  /* grid-template-columns: repeat(10, 1fr); */
+  gap: 5px;
+  /* background-color: aqua; */
+}
+
+.candy-row {
+  display: flex;
+}
