@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
 import CandyGrid from "./Components/CandyGrid/CandyGrid";
+import "./App.css";
+import GameModal from "./Components/GameModal/GameModal";
+import winSound from "/win.mp3";
+import loseSound from "/lost.mp3";
+import scoreUpdateSound from "/score.mp3";
 
 function App() {
   const [totalScore, setTotalScore] = useState(0);
@@ -11,11 +16,46 @@ function App() {
   // Add a state for the timer
   const [timer, setTimer] = useState(timeLimit);
 
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+
+  const winAudio = new Audio(winSound);
+  const loseAudio = new Audio(loseSound);
+  const scoreUpdateAudio = new Audio(scoreUpdateSound);
+
   // const red = "./red_jelly.png";
   // const blue = "./blue_jelly.png";
   // const yellow = "./yellow_jelly.webp";
 
   // const colors = ["/red_jelly.png", "/blue_jelly.png", "/yellow_jelly.webp"];
+
+  useEffect(() => {
+    console.log("Component rendered with showModal:", showModal);
+  }, [showModal]);
+
+  useEffect(() => {
+    if (totalScore > 0) {
+      scoreUpdateAudio.play();
+    }
+  }, [totalScore]);
+
+  useEffect(() => {
+    if (!gameOver && totalScore >= targetScore) {
+      // Implement win condition
+      winAudio.play();
+      setGameOver(true);
+      setModalMessage("You won!");
+      setShowModal(true);
+      console.log("You won!");
+    } else if (gameOver) {
+      loseAudio.play();
+      setModalMessage("You Lost! Try Again!");
+      setShowModal(true);
+      console.log("You lost!");
+    }
+  }, [totalScore, targetScore, gameOver]);
+
+  // console.log("Modal visibility:", isVisible);
 
   useEffect(() => {
     if (!gameOver && totalScore < targetScore) {
@@ -32,7 +72,7 @@ function App() {
   }, [timer, gameOver]);
 
   const generateRandomColors = () => {
-    const colors = ["red", "blue", "yellow", "green"];
+    const colors = ["orange", "#29B6F6", "#9CCC65", "#E1BEE7"];
     // const colors = ["red_jelly.png", "blue_jelly.png", "yellow_jelly.webp"];
     const randomIndex = Math.floor(Math.random() * colors.length);
     return colors[randomIndex];
@@ -96,8 +136,6 @@ function App() {
       const visitedMatrix = Array.from({ length: gridSize }, () =>
         Array(gridSize).fill(false)
       );
-
-      // console.log(visitedMatrix);
 
       const findConsecutiveInRow = (row, col, color) => {
         const consecutiveCells = [];
@@ -196,15 +234,32 @@ function App() {
         const totalTrueCells = connectedCandies.length;
 
         // const score = connectedCandies.length;
-        setTotalScore((prevScore) => prevScore + totalTrueCells);
-        console.log("Score:", totalTrueCells);
+        // setTotalScore((prevScore) => prevScore + totalTrueCells);
+        // console.log("Score:", totalTrueCells);
 
-        if (totalScore >= targetScore) {
-          // Implement win condition
-          setGameOver(true);
-          console.log("You won!");
-          // Display win screen or proceed to the next level
-        }
+        // if (totalScore + totalTrueCells >= targetScore) {
+        //   // Implement win condition
+        //   setGameOver(true);
+        //   setModalMessage("You won!");
+        //   setShowModal(true);
+        //   console.log("You won!");
+        //   // Display win screen or proceed to the next level
+        // }
+
+        setTotalScore((prevScore) => {
+          const newScore = prevScore + totalTrueCells;
+
+          if (newScore >= targetScore) {
+            // Implement win condition
+            setGameOver(true);
+            setModalMessage("You won!");
+            setShowModal(true);
+            console.log("You won!");
+            // Display win screen or proceed to the next level
+          }
+
+          return newScore;
+        });
 
         // Update the grid with new colors and reset the game
         const newCandyGrid = candyGrid.map((row, rowIndex) =>
@@ -218,16 +273,45 @@ function App() {
         console.log(visitedMatrix);
       }
     }
+    {
+      console.log("gameOver?  ", gameOver);
+    }
   };
 
   const [candyGrid, setCandyGrid] = useState(generateInitialGrid());
 
+  const handleRestart = () => {
+    // Reset game state
+    setTotalScore(0);
+    setTimer(timeLimit);
+    setGameOver(false);
+    setCandyGrid(generateInitialGrid());
+    setShowModal(false);
+  };
+
+  const handleExit = () => {
+    // Handle exit logic if needed
+    setShowModal(false);
+  };
+
   return (
-    <div className="App">
-      <div className="score-box">Your Score: {totalScore}</div>
-      <div>Target Score: {targetScore}</div>
-      <div>Time Remaining: {timer} seconds</div>
-      <CandyGrid grid={candyGrid} onCandyClick={handleCandyClick} />
+    <div className="game-container">
+      <div className="game-data">
+        <div className="score-box">Your Score: {totalScore}</div>
+        <div className="score-box">Target Score: {targetScore}</div>
+      </div>
+      <div className="score-box">Time Remaining: {timer} seconds</div>
+      <div className="game-grid-container">
+        <CandyGrid grid={candyGrid} onCandyClick={handleCandyClick} />
+      </div>
+      {showModal && (
+        <GameModal
+          message={modalMessage}
+          onRestart={handleRestart}
+          onExit={handleExit}
+          isVisible={showModal}
+        />
+      )}
     </div>
   );
 }
