@@ -30,9 +30,42 @@ function App() {
     return grid;
   };
 
+  const gridSize = 10;
+  const findConnectedCandies = (row, col, color, visited = []) => {
+    if (
+      row < 0 ||
+      row >= gridSize ||
+      col < 0 ||
+      col >= gridSize ||
+      visited[row * gridSize + col] ||
+      candyGrid[row][col] != color
+    ) {
+      return [];
+    }
+
+    visited[row * gridSize + col] = true;
+    const connectedCandies = [{ row, col }];
+
+    // Check horizontally (left and right)
+    connectedCandies.push(
+      ...findConnectedCandies(row, col - 1, color, visited), // Left
+      ...findConnectedCandies(row, col + 1, color, visited) // Right
+    );
+
+    // Check vertically (Up and Down)
+    connectedCandies.push(
+      ...findConnectedCandies(row + 1, col, color, visited), // Down
+      ...findConnectedCandies(row - 1, col, color, visited) // UP
+    );
+
+    return connectedCandies;
+  };
   const handleCandyClick = (row, col) => {
     // Logic to handle candy click (burst connected candies, update grid, etc.)
     console.log("candy block clicked");
+    const clickedColor = candyGrid[row][col];
+    const visitedMatrix = findConnectedCandies(row, col, clickedColor);
+    console.log(visitedMatrix);
   };
 
   const [candyGrid, setCandyGrid] = useState(generateInitialGrid());
