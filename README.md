@@ -4,12 +4,12 @@ A simple Candy Crush game implemented in React.
 
 - Home Screen
 
-  ![Screenshot](homePg_sc.png)
+  ![Screenshot](public/homePg_sc.png)
 
 - Game Screen
-  ![Screenshot](game_sc.png)
+  ![Screenshot](public/game_sc.png)
 - Game Result Modal
-  ![Screenshot](game_over_sc.png)
+  ![Screenshot](public/game_over_sc.png)
 
 ## Introduction
 
