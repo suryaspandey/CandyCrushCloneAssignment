@@ -8,6 +8,8 @@ import scoreUpdateSound from "/score.mp3";
 import React from "react";
 import { gameLost, gamePlayed, gameWon } from "./Reducers/gameCounter";
 import { useAppSelector, useAppDispatch } from "./Reducers/hooks";
+import HomePg from "./Pages/HomePg";
+import GlobalPoints from "./Components/GlobalGamePoints/GlobalPoints";
 
 function App() {
   const [totalScore, setTotalScore] = useState(0);
@@ -21,6 +23,8 @@ function App() {
 
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [isGameStarted, setIsGameStarted] = useState(false);
+  const [currentScreen, setCurrentScreen] = useState("home");
 
   const winAudio = new Audio(winSound);
   const loseAudio = new Audio(loseSound);
@@ -53,9 +57,9 @@ function App() {
 
   // const colors = ["/red_jelly.png", "/blue_jelly.png", "/yellow_jelly.webp"];
 
-  useEffect(() => {
-    console.log("Component rendered with showModal:", showModal);
-  }, [showModal]);
+  // useEffect(() => {
+  //   console.log("Component rendered with showModal:", showModal);
+  // }, [showModal]);
 
   useEffect(() => {
     if (totalScore > 0) {
@@ -71,14 +75,18 @@ function App() {
       setModalMessage("You won!");
       setShowModal(true);
       console.log("You won!");
-    } else if (gameOver) {
+      // handleGameWon();
+    } else if (gameOver && totalScore < targetScore) {
+      // loseAudio.play();
       loseAudio.play();
       setModalMessage("You Lost! Try Again!");
       setShowModal(true);
       console.log("You lost!");
+      // handleGameLost();
     }
 
     if (totalScore >= targetScore) {
+      // && !gameOver
       handleGameWon();
     } else if (gameOver) {
       handleGameLost();
@@ -90,7 +98,7 @@ function App() {
       const intervalId = setInterval(() => {
         setTimer((prevTime) => prevTime - 1);
 
-        if (timer === 0) {
+        if (timer === 1) {
           setGameOver(true);
           console.log("Game over! Time's up!");
         }
@@ -261,19 +269,6 @@ function App() {
         }
         const totalTrueCells = connectedCandies.length;
 
-        // const score = connectedCandies.length;
-        // setTotalScore((prevScore) => prevScore + totalTrueCells);
-        // console.log("Score:", totalTrueCells);
-
-        // if (totalScore + totalTrueCells >= targetScore) {
-        //   // Implement win condition
-        //   setGameOver(true);
-        //   setModalMessage("You won!");
-        //   setShowModal(true);
-        //   console.log("You won!");
-        //   // Display win screen or proceed to the next level
-        // }
-
         setTotalScore((prevScore) => {
           const newScore = prevScore + totalTrueCells;
 
@@ -283,7 +278,6 @@ function App() {
             setModalMessage("You won!");
             setShowModal(true);
             console.log("You won!");
-            // Display win screen or proceed to the next level
           }
 
           return newScore;
@@ -298,7 +292,7 @@ function App() {
 
         setCandyGrid(newCandyGrid);
 
-        console.log(visitedMatrix);
+        // console.log(visitedMatrix);
       }
     }
     {
@@ -316,29 +310,77 @@ function App() {
     setCandyGrid(generateInitialGrid());
     setShowModal(false);
     handleGamePlayed();
+    setCurrentScreen("game");
   };
 
   const handleExit = () => {
     // Handle exit logic if needed
+    setTotalScore(0);
+    setTimer(timeLimit);
+
     setShowModal(false);
+    setIsGameStarted(false);
+    // handleGamePlayed();
+    setCurrentScreen("home");
+
+    // setGameOver(false);
   };
+
+  const handleBack = () => {
+    setCurrentScreen("home");
+  };
+
+  const handleStartGame = () => {
+    setCurrentScreen("game");
+    setIsGameStarted(true);
+    handleGamePlayed();
+    setTimer(timeLimit);
+  };
+
+  // useEffect(() => {
+  //   console.log("handleExit is called");
+  // }, [handleExit]);
+  useEffect(() => {
+    if (isGameStarted) {
+      setTimer(timeLimit);
+    }
+  }, [isGameStarted]);
 
   return (
     <div className="game-container">
-      <div className="game-data">
-        <div className="score-box">Your Score: {totalScore}</div>
-        <div className="score-box">Target Score: {targetScore}</div>
-      </div>
-      <div className="score-box" style={{ width: "225px" }}>
-        Time Remaining: {timer} seconds
-      </div>
-      <div className="game-grid-container">
-        <CandyGrid grid={candyGrid} onCandyClick={handleCandyClick} />
-      </div>
+      {currentScreen === "game" && (
+        <>
+          <div className="game-data">
+            <div className="score-box">Your Score: {totalScore}</div>
+            <div className="score-box">Target Score: {targetScore}</div>
+          </div>
+          <div className="score-box" style={{ width: "225px" }}>
+            Time Remaining: {timer} seconds
+          </div>
+          <div className="game-grid-container">
+            <CandyGrid grid={candyGrid} onCandyClick={handleCandyClick} />
+          </div>
+          {/* <div className="global-scores">
+            <h1>Games gamePlayed: {gamesPlayed}</h1>
+            <h1>Games Won: {gamesWon}</h1>
+            <h1>Games Lost: {gamesLost}</h1>
+            <button onClick={handleRestart}>Start</button>
+          </div> */}
 
-      <h1>Games gamePlayed: {gamesPlayed}</h1>
-      <h1>Games Won: {gamesWon}</h1>
-      <h1>Games Lost: {gamesLost}</h1>
+          <button className="back-btn" onClick={handleBack}>
+            Back
+          </button>
+        </>
+      )}
+      {currentScreen === "home" && (
+        <HomePg
+          onExit={handleExit}
+          onStart={handleRestart}
+          gamesPlayed={gamesPlayed}
+          gamesWon={gamesWon}
+          gamesLost={gamesLost}
+        />
+      )}
 
       {showModal && (
         <GameModal

@@ -16,12 +16,6 @@ body {
   justify-content: center;
 }
 .game-data {
-  /* display: flex;
-  text-align: center;
-  align-items: center;
-  justify-content: space-around;
-  gap: 10px; */
-
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   text-align: center;
@@ -39,4 +33,17 @@ body {
   padding: 5px;
   color: white;
   font-family: cursive;
+}
+
+.back-btn {
+  font-size: 17px;
+  font-weight: 800;
+  border-radius: 20px;
+  background: #73a143;
+  margin: 9px;
+  padding: 7px 33px;
+  color: white;
+  font-style: italic;
+  border: 2px solid white;
+  cursor: pointer;
 }

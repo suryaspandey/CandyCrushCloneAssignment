@@ -1,0 +1,28 @@
+.start-btn {
+  font-size: 28px;
+  font-weight: 800;
+  border-radius: 20px;
+  background: #73a143;
+  margin: 9px;
+  padding: 10px 48px;
+  color: white;
+  font-style: italic;
+  border: 2px solid white;
+  cursor: pointer;
+}
+
+.global-scores {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 15%;
+}
+.global-pts-h1 {
+  font-weight: 800;
+  border-radius: 20px;
+  background: pink;
+  margin: 9px;
+  padding: 6px;
+  color: white;
+  font-style: italic;
+}
