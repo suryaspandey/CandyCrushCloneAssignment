@@ -33,6 +33,8 @@
 .candyCrush-logo-container {
   margin-top: 20px;
   /* display: none; */
+  width: 270px;
+  height: 195px;
 }
 
 @media (max-width: 415px) {
@@ -48,7 +50,7 @@
 }
 @media (min-width: 768px) {
   .global-scores {
-    width: 345px;
+    width: 385px;
   }
 
   .global-pts-h1 {
