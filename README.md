@@ -2,18 +2,6 @@
 
 A simple Candy Crush game implemented in React.
 
-- Home Screen
-
-  ![Screenshot](public/homePg_sc.png)
-
-- Game Screen
-
-  ![Screenshot](public/game_sc.png)
-
-- Game Result Modal
-
-  ![Screenshot](public/game_over_sc.png)
-
 ## Introduction
 
 This project is a Candy Crush game implemented using React.
@@ -60,6 +48,20 @@ https://candy-crush-clone-sp.netlify.app/
 - 1 point is earned for each candy burst within the cluster
 - Achieve the target score within the time limit to win the game
 - If the time limit is reached without reaching the target score, the game is lost
+
+### Screenshots
+
+- Home Screen
+
+  ![Screenshot](public/homePg_sc.png)
+
+- Game Screen
+
+  ![Screenshot](public/game_sc.png)
+
+- Game Result Modal
+
+  ![Screenshot](public/game_over_sc.png)
 
 ### Technologies Used
 
