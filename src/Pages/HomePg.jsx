@@ -4,6 +4,9 @@ import "./homePg.css";
 const HomePg = ({ gamesPlayed, gamesWon, gamesLost, onStart }) => {
   return (
     <>
+      <div className="candyCrush-logo-container">
+        <img src="/candyCrushLogo.png" alt="Candy crush Logo" />
+      </div>
       <div className="global-scores">
         <h1 className="global-pts-h1">Games Played: {gamesPlayed}</h1>
         <h1 className="global-pts-h1">Games Won: {gamesWon}</h1>

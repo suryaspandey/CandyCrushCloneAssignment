@@ -7,10 +7,10 @@ const CandyGrid = ({ grid, onCandyClick }) => {
     <div className="candy-grid">
       {grid.map((row, rowIndex) => (
         <div key={rowIndex} className="candy-row">
-          {row.map((color, colIndex) => (
+          {row.map((candyImg, colIndex) => (
             <Candy
               key={colIndex}
-              color={color}
+              candyImg={candyImg}
               onClick={() => onCandyClick(rowIndex, colIndex)}
             />
           ))}

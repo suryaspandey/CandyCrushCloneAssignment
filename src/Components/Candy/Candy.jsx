@@ -1,14 +1,12 @@
 import React from "react";
 import "./candy.css";
-const Candy = ({ color, onClick }) => {
+const Candy = ({ candyImg, onClick }) => {
   return (
     <div
       className="candy-block"
-      // style={{ backgroundColor: color }}
       style={{
-        backgroundImage: `url(${color})`,
-        height: "40px",
-        width: "40px",
+        backgroundImage: `url(${candyImg})`,
+
         backgroundSize: "cover",
       }}
       onClick={onClick}

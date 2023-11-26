@@ -9,16 +9,14 @@ import React from "react";
 import { gameLost, gamePlayed, gameWon } from "./Reducers/gameCounter";
 import { useAppSelector, useAppDispatch } from "./Reducers/hooks";
 import HomePg from "./Pages/HomePg";
-import GlobalPoints from "./Components/GlobalGamePoints/GlobalPoints";
 
 function App() {
   const [totalScore, setTotalScore] = useState(0);
   const [targetScore, setTargetScore] = useState(50);
   const [gameOver, setGameOver] = useState(false);
-  const [timeLimit, setTimeLimit] = useState(20); // Set your desired time limit in seconds
+  const [timeLimit, setTimeLimit] = useState(20); //  desired time limit
 
-  // Add a state for the timer
-  const [timer, setTimer] = useState(timeLimit);
+  const [timer, setTimer] = useState(timeLimit); // timer state
 
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -36,59 +34,24 @@ function App() {
   );
 
   const handleGamePlayed = () => {
-    console.log("game played dispatcher");
-
     dispatch(gamePlayed());
   };
 
   const handleGameWon = () => {
-    console.log("game won dispatcher");
-
     dispatch(gameWon());
   };
 
   const handleGameLost = () => {
-    console.log("game over dispatcher");
     dispatch(gameLost());
   };
 
-  const colors = ["/red_jelly.png", "/blue_jelly.png", "/green_jelly.png"];
-
-  // useEffect(() => {
-  //   console.log("Component rendered with showModal:", showModal);
-  // }, [showModal]);
+  const candyImgs = ["/red_jelly.png", "/blue_jelly.png", "/green_jelly.png"];
 
   useEffect(() => {
     if (totalScore > 0) {
       scoreUpdateAudio.play();
     }
   }, [totalScore]);
-
-  // useEffect(() => {
-  //   if (!gameOver && totalScore >= targetScore) {
-  //     // Implement win condition
-  //     winAudio.play();
-  //     setGameOver(true);
-  //     setModalMessage("You won!");
-  //     setShowModal(true);
-  //     console.log("You won!");
-  //     // handleGameWon();
-  //   } else if (gameOver && totalScore < targetScore) {
-  //     // loseAudio.play();
-  //     loseAudio.play();
-  //     setModalMessage("You Lost! Try Again!");
-  //     setShowModal(true);
-  //     console.log("You lost!");
-  //     // handleGameLost();
-  //   }
-
-  //   if (totalScore >= targetScore) {
-  //     // && !gameOver
-  //     handleGameWon();
-  //   } else if (gameOver) {
-  //     handleGameLost();
-  //   }
-  // }, [totalScore, targetScore, gameOver]);
 
   useEffect(() => {
     if (!gameOver && totalScore < targetScore) {
@@ -97,7 +60,6 @@ function App() {
 
         if (timer === 1) {
           setGameOver(true);
-          console.log("Game over! Time's up!");
           setModalMessage("You Lost! Try Again!");
           setShowModal(true);
           handleGameLost();
@@ -109,8 +71,8 @@ function App() {
   }, [timer, gameOver]);
 
   const generateRandomColors = () => {
-    const randomIndex = Math.floor(Math.random() * colors.length);
-    return colors[randomIndex];
+    const randomIndex = Math.floor(Math.random() * candyImgs.length);
+    return candyImgs[randomIndex];
   };
 
   const generateInitialGrid = () => {
@@ -164,10 +126,8 @@ function App() {
 
   const handleCandyClick = (row, col) => {
     if (!gameOver) {
-      // Logic to handle candy click (burst connected candies, update grid, etc.)
-      console.log("candy block clicked");
+      // Logic to handle candy click
       const clickedColor = candyGrid[row][col];
-      // const visitedMatrix = findConnectedCandies(row, col, clickedColor);
       const visitedMatrix = Array.from({ length: gridSize }, () =>
         Array(gridSize).fill(false)
       );
@@ -276,7 +236,6 @@ function App() {
             setGameOver(true);
             setModalMessage("You won!");
             setShowModal(true);
-            console.log("You won!");
             handleGameWon();
             winAudio.play();
           }
@@ -292,12 +251,7 @@ function App() {
         );
 
         setCandyGrid(newCandyGrid);
-
-        // console.log(visitedMatrix);
       }
-    }
-    {
-      console.log("gameOver?  ", gameOver);
     }
   };
 
@@ -321,26 +275,13 @@ function App() {
 
     setShowModal(false);
     setIsGameStarted(false);
-    // handleGamePlayed();
     setCurrentScreen("home");
-
-    // setGameOver(false);
   };
 
   const handleBack = () => {
     setCurrentScreen("home");
   };
 
-  const handleStartGame = () => {
-    setCurrentScreen("game");
-    setIsGameStarted(true);
-    handleGamePlayed();
-    setTimer(timeLimit);
-  };
-
-  // useEffect(() => {
-  //   console.log("handleExit is called");
-  // }, [handleExit]);
   useEffect(() => {
     if (isGameStarted) {
       setTimer(timeLimit);
@@ -355,18 +296,12 @@ function App() {
             <div className="score-box">Your Score: {totalScore}</div>
             <div className="score-box">Target Score: {targetScore}</div>
           </div>
-          <div className="score-box" style={{ width: "225px" }}>
+          <div className="score-box timer-box">
             Time Remaining: {timer} seconds
           </div>
           <div className="game-grid-container">
             <CandyGrid grid={candyGrid} onCandyClick={handleCandyClick} />
           </div>
-          {/* <div className="global-scores">
-            <h1>Games gamePlayed: {gamesPlayed}</h1>
-            <h1>Games Won: {gamesWon}</h1>
-            <h1>Games Lost: {gamesLost}</h1>
-            <button onClick={handleRestart}>Start</button>
-          </div> */}
 
           <button className="back-btn" onClick={handleBack}>
             Back
