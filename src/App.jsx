@@ -6,8 +6,8 @@ import winSound from "/win.mp3";
 import loseSound from "/lost.mp3";
 import scoreUpdateSound from "/score.mp3";
 import React from "react";
-import { gameLost, gamePlayed, gameWon } from "./Reducers/gameCounter";
-import { useAppSelector, useAppDispatch } from "./Reducers/hooks";
+import { gameLost, gamePlayed, gameWon } from "./Redux/gameCounter";
+import { useAppSelector, useAppDispatch } from "./Redux/hooks";
 import HomePg from "./Pages/HomePg";
 
 function App() {
@@ -54,11 +54,11 @@ function App() {
   }, [totalScore]);
 
   useEffect(() => {
-    if (!gameOver && totalScore < targetScore) {
+    if (isGameStarted && !gameOver && totalScore < targetScore) {
       const intervalId = setInterval(() => {
         setTimer((prevTime) => prevTime - 1);
-
         if (timer === 1) {
+          setIsGameStarted(false);
           setGameOver(true);
           setModalMessage("You Lost! Try Again!");
           setShowModal(true);
@@ -66,9 +66,12 @@ function App() {
           loseAudio.play();
         }
       }, 1000);
-      return () => clearInterval(intervalId);
+
+      return () => {
+        clearInterval(intervalId);
+      };
     }
-  }, [timer, gameOver]);
+  }, [timer, gameOver, isGameStarted]);
 
   const generateRandomColors = () => {
     const randomIndex = Math.floor(Math.random() * candyImgs.length);
@@ -271,7 +274,7 @@ function App() {
   const handleExit = () => {
     // Handle exit logic if needed
     setTotalScore(0);
-    setTimer(timeLimit);
+    setTimer(timeLimit); //  changed
 
     setShowModal(false);
     setIsGameStarted(false);
@@ -280,8 +283,17 @@ function App() {
 
   const handleBack = () => {
     setCurrentScreen("home");
+    setIsGameStarted(false);
   };
-
+  const handleStart = () => {
+    setTotalScore(0);
+    setTimer(timeLimit);
+    setGameOver(false);
+    setShowModal(false);
+    handleGamePlayed();
+    setCurrentScreen("game");
+    setIsGameStarted(true);
+  };
   useEffect(() => {
     if (isGameStarted) {
       setTimer(timeLimit);
@@ -311,7 +323,7 @@ function App() {
       {currentScreen === "home" && (
         <HomePg
           onExit={handleExit}
-          onStart={handleRestart}
+          onStart={handleStart}
           gamesPlayed={gamesPlayed}
           gamesWon={gamesWon}
           gamesLost={gamesLost}

@@ -11,15 +11,12 @@ export const counterSlice = createSlice({
   name: "game",
   reducers: {
     gamePlayed: (state) => {
-      console.log("Action: gamePlayed");
       state.gamesPlayed += 1;
     },
     gameWon: (state) => {
-      console.log("Action: gameWon");
       state.gamesWon += 1;
     },
     gameLost: (state) => {
-      console.log("Action: gameLost");
       state.gamesLost += 1;
     },
   },

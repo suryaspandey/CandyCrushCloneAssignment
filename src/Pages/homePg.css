@@ -31,7 +31,7 @@
 }
 
 .candyCrush-logo-container {
-  margin-top: 20px;
+  margin-top: 10px;
   /* display: none; */
   width: 270px;
   height: 195px;
@@ -46,14 +46,5 @@
 @media (max-width: 1129px) {
   .candyCrush-logo-container {
     display: block;
-  }
-}
-@media (min-width: 768px) {
-  .global-scores {
-    width: 385px;
-  }
-
-  .global-pts-h1 {
-    font-size: 42px;
   }
 }
