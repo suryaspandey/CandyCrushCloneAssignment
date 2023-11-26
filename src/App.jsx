@@ -5,6 +5,9 @@ import GameModal from "./Components/GameModal/GameModal";
 import winSound from "/win.mp3";
 import loseSound from "/lost.mp3";
 import scoreUpdateSound from "/score.mp3";
+import React from "react";
+import { gameLost, gamePlayed, gameWon } from "./Reducers/gameCounter";
+import { useAppSelector, useAppDispatch } from "./Reducers/hooks";
 
 function App() {
   const [totalScore, setTotalScore] = useState(0);
@@ -22,6 +25,27 @@ function App() {
   const winAudio = new Audio(winSound);
   const loseAudio = new Audio(loseSound);
   const scoreUpdateAudio = new Audio(scoreUpdateSound);
+
+  const dispatch = useAppDispatch();
+
+  const { gamesPlayed, gamesWon, gamesLost } = useAppSelector(
+    (state) => state.game
+  );
+
+  const handleGamePlayed = () => {
+    console.log("Dispatching gamePlayed action");
+    dispatch(gamePlayed());
+  };
+
+  const handleGameWon = () => {
+    console.log("Dispatching gameWon action");
+    dispatch(gameWon());
+  };
+
+  const handleGameLost = () => {
+    console.log("Dispatching gameLost action");
+    dispatch(gameLost());
+  };
 
   // const red = "./red_jelly.png";
   // const blue = "./blue_jelly.png";
@@ -53,9 +77,13 @@ function App() {
       setShowModal(true);
       console.log("You lost!");
     }
-  }, [totalScore, targetScore, gameOver]);
 
-  // console.log("Modal visibility:", isVisible);
+    if (totalScore >= targetScore) {
+      handleGameWon();
+    } else if (gameOver) {
+      handleGameLost();
+    }
+  }, [totalScore, targetScore, gameOver]);
 
   useEffect(() => {
     if (!gameOver && totalScore < targetScore) {
@@ -287,6 +315,7 @@ function App() {
     setGameOver(false);
     setCandyGrid(generateInitialGrid());
     setShowModal(false);
+    handleGamePlayed();
   };
 
   const handleExit = () => {
@@ -300,10 +329,17 @@ function App() {
         <div className="score-box">Your Score: {totalScore}</div>
         <div className="score-box">Target Score: {targetScore}</div>
       </div>
-      <div className="score-box">Time Remaining: {timer} seconds</div>
+      <div className="score-box" style={{ width: "225px" }}>
+        Time Remaining: {timer} seconds
+      </div>
       <div className="game-grid-container">
         <CandyGrid grid={candyGrid} onCandyClick={handleCandyClick} />
       </div>
+
+      <h1>Games gamePlayed: {gamesPlayed}</h1>
+      <h1>Games Won: {gamesWon}</h1>
+      <h1>Games Lost: {gamesLost}</h1>
+
       {showModal && (
         <GameModal
           message={modalMessage}

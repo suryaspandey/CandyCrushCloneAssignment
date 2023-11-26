@@ -7,7 +7,7 @@ body {
   background-repeat: no-repeat;
   height: 100vh;
 
-  overflow: hidden; /* This ensures that the background covers the entire page */
+  overflow: hidden;
 }
 .game-container {
   display: flex;
