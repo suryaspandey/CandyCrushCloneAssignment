@@ -36,14 +36,19 @@ function App() {
   );
 
   const handleGamePlayed = () => {
+    console.log("game played dispatcher");
+
     dispatch(gamePlayed());
   };
 
   const handleGameWon = () => {
+    console.log("game won dispatcher");
+
     dispatch(gameWon());
   };
 
   const handleGameLost = () => {
+    console.log("game over dispatcher");
     dispatch(gameLost());
   };
 
@@ -59,31 +64,31 @@ function App() {
     }
   }, [totalScore]);
 
-  useEffect(() => {
-    if (!gameOver && totalScore >= targetScore) {
-      // Implement win condition
-      winAudio.play();
-      setGameOver(true);
-      setModalMessage("You won!");
-      setShowModal(true);
-      console.log("You won!");
-      // handleGameWon();
-    } else if (gameOver && totalScore < targetScore) {
-      // loseAudio.play();
-      loseAudio.play();
-      setModalMessage("You Lost! Try Again!");
-      setShowModal(true);
-      console.log("You lost!");
-      // handleGameLost();
-    }
+  // useEffect(() => {
+  //   if (!gameOver && totalScore >= targetScore) {
+  //     // Implement win condition
+  //     winAudio.play();
+  //     setGameOver(true);
+  //     setModalMessage("You won!");
+  //     setShowModal(true);
+  //     console.log("You won!");
+  //     // handleGameWon();
+  //   } else if (gameOver && totalScore < targetScore) {
+  //     // loseAudio.play();
+  //     loseAudio.play();
+  //     setModalMessage("You Lost! Try Again!");
+  //     setShowModal(true);
+  //     console.log("You lost!");
+  //     // handleGameLost();
+  //   }
 
-    if (totalScore >= targetScore) {
-      // && !gameOver
-      handleGameWon();
-    } else if (gameOver) {
-      handleGameLost();
-    }
-  }, [totalScore, targetScore, gameOver]);
+  //   if (totalScore >= targetScore) {
+  //     // && !gameOver
+  //     handleGameWon();
+  //   } else if (gameOver) {
+  //     handleGameLost();
+  //   }
+  // }, [totalScore, targetScore, gameOver]);
 
   useEffect(() => {
     if (!gameOver && totalScore < targetScore) {
@@ -93,6 +98,10 @@ function App() {
         if (timer === 1) {
           setGameOver(true);
           console.log("Game over! Time's up!");
+          setModalMessage("You Lost! Try Again!");
+          setShowModal(true);
+          handleGameLost();
+          loseAudio.play();
         }
       }, 1000);
       return () => clearInterval(intervalId);
@@ -268,6 +277,8 @@ function App() {
             setModalMessage("You won!");
             setShowModal(true);
             console.log("You won!");
+            handleGameWon();
+            winAudio.play();
           }
 
           return newScore;
