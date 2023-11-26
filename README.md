@@ -2,18 +2,33 @@
 
 A simple Candy Crush game implemented in React.
 
-![Game Screenshot](./screenshot.png)
+- Home Screen
+  ![Game Screenshot](./homePg_sc.png)
+- Game Screen
+  ![Game Screenshot](./game_sc.png)
+- Game Result Modal
+  ![Game Screenshot](./game_over_sc.png)
 
 ## Introduction
 
-This project is a web-based Candy Crush game implemented using React. It provides a simple and enjoyable gaming experience where players can match candies to score points.
+This project is a Candy Crush game implemented using React.
+It provides a simple, delightful and responsive gaming experience that brings the classic match-and-score fun to both web and mobile platforms
+
+## Hosted Link
+
+https://candy-crush-clone-sp.netlify.app/
 
 ## Features
 
-- Dynamic grid of candies that can be clicked to create matches.
-- Score tracking to monitor the player's progress.
-- Time limit to add an element of challenge.
-- Modal messages for game outcomes (win or lose).
+- Responsive design to ensure an optimal gaming experience across various screen sizes
+- Dynamic grid of candies that can be clicked to create matches
+- Score tracking to monitor the player's progress
+- Time limit to add an element of challenge
+- Modal messages for game outcomes (win or lose)
+- Keep track of your gaming statistics:
+  - Total number of games played
+  - Number of games won
+  - Number of games lost
 
 ## Getting Started
 
@@ -24,9 +39,9 @@ This project is a web-based Candy Crush game implemented using React. It provide
 ### Installation
 
 1. Clone the repository:
-   git clone https://github.com/your-username/candy-crush-game.git
+   git clone https://github.com/suryaspandey/CandyCrushCloneAssignment.git
 2. Navigate to the project directory:
-   cd candy-crush-game
+   cd CandyCrushClone
 3. Install dependencies:
    npm install
 
@@ -36,14 +51,14 @@ This project is a web-based Candy Crush game implemented using React. It provide
 
 ### Gameplay
 
-- Click on candies to create matches.
-- Forming consecutive matches of three or more candies increases the score.
-- Achieve the target score within the time limit to win the game.
-- If the time limit is reached without reaching the target score, the game is lost.
+- Click on a group of three or more candies of the same type to burst the candies
+- 1 point is earned for each candy burst within the cluster
+- Achieve the target score within the time limit to win the game
+- If the time limit is reached without reaching the target score, the game is lost
 
 ### Technologies Used
 
 - React
-- Redux (for state management)
+- Redux
 - HTML, CSS
 - JavaScript
