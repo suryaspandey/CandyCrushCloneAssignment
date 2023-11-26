@@ -7,8 +7,11 @@ A simple Candy Crush game implemented in React.
   ![Screenshot](public/homePg_sc.png)
 
 - Game Screen
+
   ![Screenshot](public/game_sc.png)
+
 - Game Result Modal
+
   ![Screenshot](public/game_over_sc.png)
 
 ## Introduction
