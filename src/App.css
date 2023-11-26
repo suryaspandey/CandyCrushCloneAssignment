@@ -68,8 +68,8 @@ body {
 
 @media (min-width: 767px) {
   .score-box {
-    margin-top: 12px;
-    padding: 10px;
+    /* margin-top: 12px; */
+    /* padding: 10px; */
     font-size: 20px;
   }
   .timer-box {
@@ -92,7 +92,7 @@ body {
 
 @media (min-width: 819px) {
   .score-box {
-    font-size: 35px;
+    font-size: 25px;
   }
   .timer-box {
     width: 480px;
