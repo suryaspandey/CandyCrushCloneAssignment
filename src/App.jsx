@@ -15,7 +15,6 @@ function App() {
   const [totalScore, setTotalScore] = useState(0);
   const [targetScore, setTargetScore] = useState(50);
   const [gameOver, setGameOver] = useState(false);
-  // Add a state for the time limit
   const [timeLimit, setTimeLimit] = useState(20); // Set your desired time limit in seconds
 
   // Add a state for the timer
@@ -37,25 +36,18 @@ function App() {
   );
 
   const handleGamePlayed = () => {
-    console.log("Dispatching gamePlayed action");
     dispatch(gamePlayed());
   };
 
   const handleGameWon = () => {
-    console.log("Dispatching gameWon action");
     dispatch(gameWon());
   };
 
   const handleGameLost = () => {
-    console.log("Dispatching gameLost action");
     dispatch(gameLost());
   };
 
-  // const red = "./red_jelly.png";
-  // const blue = "./blue_jelly.png";
-  // const yellow = "./yellow_jelly.webp";
-
-  // const colors = ["/red_jelly.png", "/blue_jelly.png", "/yellow_jelly.webp"];
+  const colors = ["/red_jelly.png", "/blue_jelly.png", "/green_jelly.png"];
 
   // useEffect(() => {
   //   console.log("Component rendered with showModal:", showModal);
@@ -108,8 +100,6 @@ function App() {
   }, [timer, gameOver]);
 
   const generateRandomColors = () => {
-    const colors = ["orange", "#29B6F6", "#9CCC65", "#E1BEE7"];
-    // const colors = ["red_jelly.png", "blue_jelly.png", "yellow_jelly.webp"];
     const randomIndex = Math.floor(Math.random() * colors.length);
     return colors[randomIndex];
   };

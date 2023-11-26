@@ -1,8 +1,9 @@
 .candy-grid {
   display: grid;
-  /* grid-template-columns: repeat(10, 1fr); */
   gap: 5px;
-  /* background-color: aqua; */
+  background-color: #c9bae4a8;
+  padding: 2px;
+  border-radius: 10px;
 }
 
 .candy-row {

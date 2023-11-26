@@ -16,6 +16,7 @@
   flex-direction: column;
   align-items: center;
   padding-top: 15%;
+  width: 260px;
 }
 .global-pts-h1 {
   font-weight: 800;
@@ -25,4 +26,6 @@
   padding: 6px;
   color: white;
   font-style: italic;
+  text-align: center;
+  width: 100%;
 }
