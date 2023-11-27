@@ -36,6 +36,11 @@
   width: 270px;
   height: 195px;
 }
+.game-rules-txt {
+  text-align: center;
+  font-style: italic;
+  color: #c9970a;
+}
 
 @media (max-width: 415px) {
   .candyCrush-logo-container {

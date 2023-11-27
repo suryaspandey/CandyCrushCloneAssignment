@@ -45,39 +45,42 @@ function App() {
     dispatch(gameLost());
   };
 
-  const candyImgs = ["/red_jelly.png", "/blue_jelly.png", "/green_jelly.png"];
-
+  // Score update sound when score changes
   useEffect(() => {
     if (totalScore > 0) {
       scoreUpdateAudio.play();
     }
   }, [totalScore]);
 
+  // Game Countdown Timer logic to stop the game
   useEffect(() => {
     if (isGameStarted && !gameOver && totalScore < targetScore) {
       const intervalId = setInterval(() => {
         setTimer((prevTime) => prevTime - 1);
         if (timer === 1) {
-          setIsGameStarted(false);
-          setGameOver(true);
+          setIsGameStarted(false); // Stops the game by setting isGameStarted to false
+          setGameOver(true); // Marks the game as over
           setModalMessage("You Lost! Try Again!");
           setShowModal(true);
-          handleGameLost();
+          handleGameLost(); // Invokes a function to handle the logic for a lost game
           loseAudio.play();
         }
       }, 1000);
 
       return () => {
-        clearInterval(intervalId);
+        clearInterval(intervalId); // interval is cleared when the component unmounts or when dependencies change.
       };
     }
   }, [timer, gameOver, isGameStarted]);
 
-  const generateRandomColors = () => {
+  const candyImgs = ["/red_jelly.png", "/blue_jelly.png", "/green_jelly.png"];
+
+  const generateRandomImages = () => {
     const randomIndex = Math.floor(Math.random() * candyImgs.length);
     return candyImgs[randomIndex];
   };
 
+  // Candy Grid Generation and Image Matching Logic:
   const generateInitialGrid = () => {
     const rows = 10;
     const cols = 10;
@@ -87,7 +90,7 @@ function App() {
     for (let i = 0; i < rows; i++) {
       const row = [];
       for (let j = 0; j < cols; j++) {
-        row.push(generateRandomColors());
+        row.push(generateRandomImages());
       }
       grid.push(row);
     }
@@ -95,6 +98,7 @@ function App() {
   };
 
   const gridSize = 10;
+  const [candyGrid, setCandyGrid] = useState(generateInitialGrid());
 
   const findConnectedCandies = (row, col, color, visited) => {
     if (
@@ -105,10 +109,9 @@ function App() {
       visited[row][col] ||
       candyGrid[row][col] !== color
     ) {
-      return [];
+      return []; // If the current cell is out of bounds, has already been visited, or contains a different color candy,return ([]).
     }
 
-    // visited[row * gridSize + col] = true;
     visited[row][col] = true;
     const connectedCandies = [{ row, col }];
 
@@ -249,7 +252,7 @@ function App() {
         // Update the grid with new colors and reset the game
         const newCandyGrid = candyGrid.map((row, rowIndex) =>
           row.map((col, colIndex) =>
-            visitedMatrix[rowIndex][colIndex] ? generateRandomColors() : col
+            visitedMatrix[rowIndex][colIndex] ? generateRandomImages() : col
           )
         );
 
@@ -257,8 +260,6 @@ function App() {
       }
     }
   };
-
-  const [candyGrid, setCandyGrid] = useState(generateInitialGrid());
 
   const handleRestart = () => {
     // Reset game state
@@ -294,6 +295,7 @@ function App() {
     setCurrentScreen("game");
     setIsGameStarted(true);
   };
+
   useEffect(() => {
     if (isGameStarted) {
       setTimer(timeLimit);

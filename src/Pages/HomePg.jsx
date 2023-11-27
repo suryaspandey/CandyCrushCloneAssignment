@@ -12,7 +12,11 @@ const HomePg = ({ gamesPlayed, gamesWon, gamesLost, onStart }) => {
         <h1 className="global-pts-h1">Games Won: {gamesWon}</h1>
         <h1 className="global-pts-h1">Games Lost: {gamesLost}</h1>
       </div>
-
+      <div className="game-rules-txt">
+        <h2>
+          Start a burst bonanza journey by clicking on candies that match!
+        </h2>
+      </div>
       <button className="start-btn" onClick={onStart}>
         Start
       </button>
