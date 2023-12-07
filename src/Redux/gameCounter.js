@@ -1,3 +1,4 @@
+//gameCounter.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -9,7 +10,9 @@ const initialState = {
 export const counterSlice = createSlice({
   initialState: initialState,
   name: "game",
+
   reducers: {
+    // Reducers for updating state based on actions
     gamePlayed: (state) => {
       state.gamesPlayed += 1;
     },

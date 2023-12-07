@@ -1,0 +1,27 @@
+:where(.css-dev-only-do-not-override-zcfrx9).ant-btn-primary {
+  background-color: #1b9f13;
+}
+
+:where(.css-dev-only-do-not-override-zcfrx9).ant-btn-default {
+  color: white;
+  background-color: #f44336;
+}
+:where(.css-dev-only-do-not-override-zcfrx9).ant-modal .ant-modal-footer {
+  text-align: center;
+  margin-top: 25px;
+}
+
+:where(.css-dev-only-do-not-override-zcfrx9).ant-modal .ant-modal-content {
+  text-align: center;
+}
+
+:where(.css-dev-only-do-not-override-zcfrx9).ant-btn {
+  border-radius: 24px;
+}
+
+:where(.css-dev-only-do-not-override-zcfrx9).ant-modal
+  .ant-modal-footer
+  .ant-btn
+  + .ant-btn:not(.ant-dropdown-trigger) {
+  margin-inline-start: 100px;
+}

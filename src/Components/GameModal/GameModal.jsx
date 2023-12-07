@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal, Button } from "antd";
+import "./gameModal.css";
 
 const GameModal = ({ message, onRestart, onExit, isVisible }) => {
   return (

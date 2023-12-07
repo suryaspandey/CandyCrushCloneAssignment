@@ -74,6 +74,12 @@ function App() {
   }, [timer, gameOver, isGameStarted]);
 
   const candyImgs = ["/red_jelly.png", "/blue_jelly.png", "/green_jelly.png"];
+  // const candyImgs = [
+  //   "/red_jelly.png",
+  //   "/blue_jelly.png",
+  //   "/green_jelly.png",
+  //   "purple_jelly.webp",
+  // ];
 
   const generateRandomImages = () => {
     const randomIndex = Math.floor(Math.random() * candyImgs.length);
@@ -112,7 +118,7 @@ function App() {
       return []; // If the current cell is out of bounds, has already been visited, or contains a different color candy,return ([]).
     }
 
-    visited[row][col] = true;
+    visited[row][col] = true; // else mark the current cell as visited
     const connectedCandies = [{ row, col }];
 
     // Check horizontally (left and right)
@@ -134,7 +140,9 @@ function App() {
     if (!gameOver) {
       // Logic to handle candy click
       const clickedColor = candyGrid[row][col];
+
       const visitedMatrix = Array.from({ length: gridSize }, () =>
+        // initially set to false
         Array(gridSize).fill(false)
       );
 
@@ -144,6 +152,7 @@ function App() {
           consecutiveCells.unshift({ row, col: j });
         }
         consecutiveCells.push({ row, col });
+
         for (
           let j = col + 1;
           j < gridSize && candyGrid[row][j] === color;
@@ -187,12 +196,14 @@ function App() {
         });
         // Recursively mark additional connected cells as true
 
-        let updated = true;
+        let updated = true; // This flag is used to determine whether any additional cells have been marked as visited in the current iteration.
         while (updated) {
           updated = false;
           for (let i = 0; i < gridSize; i++) {
             for (let j = 0; j < gridSize; j++) {
               if (visitedMatrix[i][j]) {
+                // Checks if the current cell in visitedMatrix is marked as visited.
+
                 // Check horizontally (left and right)
                 if (
                   j > 0 &&
@@ -250,6 +261,7 @@ function App() {
         });
 
         // Update the grid with new colors and reset the game
+
         const newCandyGrid = candyGrid.map((row, rowIndex) =>
           row.map((col, colIndex) =>
             visitedMatrix[rowIndex][colIndex] ? generateRandomImages() : col
@@ -257,6 +269,41 @@ function App() {
         );
 
         setCandyGrid(newCandyGrid);
+
+        // setTimeout(() => {
+        //   const emptyCandy = [];
+        //   const newCandyGrid = candyGrid.map((row, rowIndex) =>
+        //     row.map((col, colIndex) =>
+        //       // visitedMatrix[rowIndex][colIndex] ? generateRandomImages() : col // if visited is true, change the grid cell position, else dont change the col of that row
+        //       {
+
+        //         const newVisited = visitedMatrix[rowIndex][colIndex] ? "" : col;
+        //         // if visited is true, change the grid cell position, else dont change the col of that row
+        //         if (newVisited == "") {
+        //           emptyCandy.push({ rowIndex, colIndex });
+        //         }
+        //         return newVisited;
+        //       }
+        //     )
+        //   );
+
+        //   emptyCandy.map((candy, index) => {
+        //     console.log("empty");
+        //     for (let i = candy.rowIndex; i >= 1; i--) {
+        //       const curCandy = [candy.rowIndex - 1, candy.colIndex];
+
+        //       let temp = [];
+        //       temp = newCandyGrid[(candy.rowIndex, candy.colIndex)];
+        //       newCandyGrid[(candy.rowIndex, candy.colIndex)] =
+        //         newCandyGrid[(candy.rowIndex - 1, candy.colIndex)];
+        //       newCandyGrid[(candy.rowIndex - 1, candy.colIndex)] = temp;
+        //     }
+        //   });
+
+        //   console.log(newCandyGrid);
+
+        //   setCandyGrid(newCandyGrid);
+        // }, 1000);
       }
     }
   };
@@ -273,9 +320,8 @@ function App() {
   };
 
   const handleExit = () => {
-    // Handle exit logic if needed
     setTotalScore(0);
-    setTimer(timeLimit); //  changed
+    setTimer(timeLimit);
 
     setShowModal(false);
     setIsGameStarted(false);

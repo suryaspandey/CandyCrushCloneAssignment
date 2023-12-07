@@ -1,5 +1,5 @@
 // gameStore.js
-
+// THIS FILE NOT USED IN THE APP
 import { configureStore } from "@reduxjs/toolkit";
 import gameReducerStore from "./reducers/gameReducerStore";
 
@@ -10,3 +10,4 @@ const store = configureStore({
 });
 
 export default store;
+// THIS FILE NOT USED IN THE APP
